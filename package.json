@@ -20,7 +20,7 @@
     "url": "git+https://github.com/alepacheco/gcp-secret-mananger"
   },
   "keywords": [],
-  "author": "Bruce C. Schardt",
+  "author": "Alejandro Pacheco",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/alepacheco/gcp-secret-mananger/issues"
