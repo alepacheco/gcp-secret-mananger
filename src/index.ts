@@ -6,9 +6,9 @@ export const getAuthToken = async (): Promise<string | null> => {
     scopes: ["https://www.googleapis.com/auth/cloud-platform"]
   });
   const authClient = await auth.getClient();
-  const { access_token } = authClient.credentials;
-
-  return access_token || null;
+  const { token } = await authClient.getAccessToken();
+  
+  return token || null;
 };
 
 export const getSecret = async (
