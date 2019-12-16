@@ -1,6 +1,10 @@
 # Nodejs library to use Google Cloud secret manager
 > https://cloud.google.com/secret-manager/docs/
 
+```bash
+npm install --save gcp-secret-manager
+```
+
 ```javascript
 import { getSecrets } from 'gcp-secret-manager';
 
