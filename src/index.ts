@@ -1,27 +1,20 @@
 import axios from "axios";
 import { google } from "googleapis";
 
-export const getAuthToken = async (): Promise<string | undefined> => {
+export const getAuthToken = async (): Promise<string | null> => {
   const auth = new google.auth.GoogleAuth({
     scopes: ["https://www.googleapis.com/auth/cloud-platform"]
   });
   const authClient = await auth.getClient();
+  const { access_token } = authClient.credentials;
 
-  // @ts-ignore
-  if (authClient.authorize) {
-    // @ts-ignore
-    const { access_token: token } = await authClient.authorize();
-
-    return token;
-  }
-
-  return;
+  return access_token || null;
 };
 
 export const getSecret = async (
   projectName: string,
   secretName: string,
-  token?: string
+  token?: string | null
 ) => {
   const options = {
     headers: {
