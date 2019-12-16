@@ -1,32 +1,39 @@
 import axios from "axios";
 import { google } from "googleapis";
 
-export const getAuthToken = async (): Promise<string> => {
-  // @ts-ignore
+export const getAuthToken = async (): Promise<string | undefined> => {
   const auth = new google.auth.GoogleAuth({
     scopes: ["https://www.googleapis.com/auth/cloud-platform"]
   });
   const authClient = await auth.getClient();
 
   // @ts-ignore
-  const { access_token: token } = await authClient.authorize();
+  if (authClient.authorize) {
+    // @ts-ignore
+    const { access_token: token } = await authClient.authorize();
 
-  return token;
+    return token;
+  }
+
+  return;
 };
 
 export const getSecret = async (
   projectName: string,
-  token: string,
-  secretName: string
+  secretName: string,
+  token?: string
 ) => {
   const options = {
     headers: {
-      Authorization: `Bearer ${token}`,
       "X-Goog-User-Project": projectName
-    },
+    } as any,
     method: "GET" as "GET",
     url: `https://secretmanager.googleapis.com/v1beta1/projects/${projectName}/secrets/${secretName}/versions/1:access`
   };
+
+  if (token) {
+    options.headers.Authorization = `Bearer ${token}`;
+  }
 
   const { data: responseData } = await axios(options);
   const {
@@ -43,6 +50,6 @@ export const getSecrets = async (projectName: string, secrets: string[]) => {
   const token = await getAuthToken();
 
   await Promise.all(
-    secrets.map(secret => getSecret(projectName, token, secret))
+    secrets.map(secret => getSecret(projectName, secret, token))
   );
 };
