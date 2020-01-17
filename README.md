@@ -1,3 +1,6 @@
+# Deprecated
+> Google has now an official library for node https://github.com/googleapis/nodejs-secret-manager
+
 # Nodejs library to use Google Cloud secret manager
 > https://cloud.google.com/secret-manager/docs/
 
